@@ -181,7 +181,7 @@ def pregunta_10():
         _c0.append(letra)
         _c1.append(nuv)
     
-    nuevo = pd.DataFrame(list(zip(_c0,_c1)), columns = ["_c0","_c1"])
+    nuevo = pd.DataFrame(list(zip(_c0,_c1)), columns = ["_c1","_c2"])
     return nuevo
 
 
