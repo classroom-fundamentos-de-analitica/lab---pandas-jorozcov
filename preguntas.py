@@ -65,7 +65,7 @@ def pregunta_04():
     E    4.785714
     Name: _c2, dtype: float64
     """
-    return
+    return tbl0.groupby("_c1")["_c2"].mean()
 
 
 def pregunta_05():
@@ -82,7 +82,7 @@ def pregunta_05():
     E    9
     Name: _c2, dtype: int64
     """
-    return
+    return tbl0.groupby("_c1")["_c2"].max()
 
 
 def pregunta_06():
@@ -94,7 +94,9 @@ def pregunta_06():
     ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
     """
-    return
+    valores = sorted(tbl1["_c4"].unique())
+    valores = [ x.upper() for x in valores]
+    return valores
 
 
 def pregunta_07():
@@ -110,7 +112,7 @@ def pregunta_07():
     E    67
     Name: _c2, dtype: int64
     """
-    return
+    return tbl0.groupby("_c1")["_c2"].sum()
 
 
 def pregunta_08():
@@ -128,7 +130,10 @@ def pregunta_08():
     39   39   E    5  1998-01-26    44
 
     """
-    return
+    otra = tbl0.copy()
+    nuevo = [int(tbl0.iloc[i,0]) + int(tbl0.iloc[i,2] )for i in range(len(tbl0))]
+    otra["suma"] = nuevo
+    return otra
 
 
 def pregunta_09():
@@ -146,7 +151,10 @@ def pregunta_09():
     39   39   E    5  1998-01-26  1998
 
     """
-    return
+    
+    otra = tbl0.copy()
+    otra["year"] = [(otra.iloc[i,3].split("-"))[0] for i in range(len(otra))]
+    return otra
 
 
 def pregunta_10():
@@ -163,7 +171,18 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    return
+    
+    _c0 = list()
+    _c1 = list()
+    
+    for letra in sorted(tbl0["_c1"].unique()):
+        nums = sorted(tbl0.groupby("_c1").get_group(letra)["_c2"].tolist())
+        nuv = ":".join([str(x) for x in nums])
+        _c0.append(letra)
+        _c1.append(nuv)
+    
+    nuevo = pd.DataFrame(list(zip(_c0,_c1)), columns = ["_c0","_c1"])
+    return nuevo
 
 
 def pregunta_11():
@@ -182,7 +201,17 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    return
+    _c0 = list()
+    _c4 = list()
+    
+    for letra in sorted(tbl1["_c0"].unique()):
+        nums = sorted(tbl1.groupby("_c0").get_group(letra)["_c4"].tolist())
+        nuv = ",".join(nums)
+        _c0.append(letra)
+        _c4.append(nuv)
+    
+    nuevo = pd.DataFrame(list(zip(_c0,_c4)), columns = ["_c0","_c4"])
+    return nuevo
 
 
 def pregunta_12():
@@ -200,7 +229,22 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
-    return
+    _c0 = list()
+    _c5 = list()
+    
+    for letra in sorted(tbl2["_c0"].unique()):
+        lets = tbl2.groupby("_c0").get_group(letra)["_c5a"].tolist()
+        nums = tbl2.groupby("_c0").get_group(letra)["_c5b"].tolist()
+        
+        c5 = sorted(list(zip(lets,nums)), key= lambda x: x[0])
+        c5 = [ x[0]+":"+str(x[1]) for x in c5]
+        c5 = ",".join(c5)
+        
+        _c0.append(letra)
+        _c5.append(c5)
+    
+    nuevo = pd.DataFrame(list(zip(_c0,_c5)), columns = ["_c0","_c5"])
+    return nuevo
 
 
 def pregunta_13():
